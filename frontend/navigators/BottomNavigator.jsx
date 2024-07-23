@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import StoryStackNavigator from './StoryStackNavigator';
 import Test from '../components/report/Test';
+import MyPage from '../components/myPage/MyPage';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,6 +16,7 @@ function BottomTabNavigator() {
       }}>
       <Tab.Screen name="Main" component={StoryStackNavigator} />
       <Tab.Screen name="Report" component={Test} />
+      <Tab.Screen name="MyPage" component={MyPage} />
     </Tab.Navigator>
   );
 }
