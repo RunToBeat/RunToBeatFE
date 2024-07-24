@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "757198198913",
+    "project_id": "runtobeat-429717",
+    "storage_bucket": "runtobeat-429717.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757198198913:android:dc4a79f5ecc58369489580",
+        "android_client_info": {
+          "package_name": "com.frontend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "757198198913-r2cjlcps5kfsb2cfijodi5nqu5mu574n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.frontend",
+            "certificate_hash": "8de43dfe1f58f3c193a8d0f244b04d6bc423f828"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDey8q0YO_Lf_l1h9uGvQCLs4bxbQ3tJVI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
