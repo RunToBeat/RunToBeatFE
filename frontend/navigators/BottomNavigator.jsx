@@ -1,7 +1,8 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import StoryStackNavigator from './StoryStackNavigator';
-import Test from '../components/report/Test';
+import Report from '../components/report/Report';
+import MyPage from '../components/myPage/MyPage';
 
 const Tab = createBottomTabNavigator();
 
@@ -9,7 +10,8 @@ function BottomNavigator() {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Main" component={StoryStackNavigator} />
-      <Tab.Screen name="Report" component={Test} />
+      <Tab.Screen name="Report" component={Report} />
+      <Tab.Screen name="MyPage" component={MyPage} />
     </Tab.Navigator>
   );
 }
