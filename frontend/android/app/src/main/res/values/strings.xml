@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">frontend</string>
+    <string name="default_web_client_id">757198198913-k01n0bp96d8rq74dr89cg978q2f83kl9.apps.googleusercontent.com</string>
+    <string name="google_fit_client_id">757198198913-r2cjlcps5kfsb2cfijodi5nqu5mu574n.apps.googleusercontent.com</string>
 </resources>
