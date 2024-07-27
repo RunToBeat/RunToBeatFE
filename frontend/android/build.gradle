@@ -9,13 +9,16 @@ buildscript {
     }
     repositories {
         google()
+        mavenLocal()
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle")
+        classpath("com.android.tools.build:gradle:7.4.2")  // Ensure you use a valid version
         classpath("com.facebook.react:react-native-gradle-plugin")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+        classpath("com.google.gms:google-services:4.4.2")  // Add this line
     }
 }
 
-apply plugin: "com.facebook.react.rootproject"
+
+
