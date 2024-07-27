@@ -20,6 +20,13 @@
             "package_name": "com.frontend",
             "certificate_hash": "8de43dfe1f58f3c193a8d0f244b04d6bc423f828"
           }
+        },
+        {
+          "client_id": "757198198913-k01n0bp96d8rq74dr89cg978q2f83kl9.apps.googleusercontent.com",
+          "client_type": 3,
+          "android_info": {
+            "package_name": "com.frontend"
+          }
         }
       ],
       "api_key": [
@@ -29,7 +36,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "757198198913-k01n0bp96d8rq74dr89cg978q2f83kl9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
