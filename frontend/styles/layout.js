@@ -17,3 +17,4 @@ export const scrollScreen = StyleSheet.create({
     paddingHorizontal: '7%',
   },
 });
+

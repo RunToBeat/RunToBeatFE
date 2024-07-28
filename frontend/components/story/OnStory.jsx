@@ -1,43 +1,47 @@
-// OnStory.js
+import React, {useEffect} from 'react';
+import {View, Text, StyleSheet, Button, ActivityIndicator} from 'react-native';
+import {useDataTracking} from './useDataTracking';
+import {useNavigation} from '@react-navigation/native';
 
-import React, {useState, useEffect} from 'react';
-import {View, Text, ActivityIndicator, Button, Alert} from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {authorizeGoogleFit, fetchGoogleFitData} from '../googleFitService'; // 유틸 함수 가져오기
-
-function OnStory() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const OnStory = () => {
   const navigation = useNavigation();
-  const route = useRoute();
-  const {situation, condition} = route.params; // 전달된 id를 받음
+
+  const {
+    steps,
+    distance,
+    calories,
+    pace,
+    averagePace,
+    elapsedTime,
+    loading,
+    error,
+    togglePause,
+    isMusicEnded,
+  } = useDataTracking();
 
   useEffect(() => {
-    const initializeAndFetchData = async () => {
-      try {
-        // Google Fit 인증
-        await authorizeGoogleFit();
+    let timer;
+    if (isMusicEnded) {
+      timer = setTimeout(() => {
+        navigation.navigate('StoryEnding', {
+          steps,
+          distance,
+          calories,
+          averagePace,
+          elapsedTime,
+        });
+      }, 1500); // 1.5초 대기
+    }
 
-        // 날짜 범위 설정
-        const startDate = '2024-07-22T00:00:00Z'; // 요청할 시작 날짜
-        const endDate = new Date().toISOString(); // 현재 날짜와 시간
+    // 컴포넌트가 언마운트될 때 타이머 정리
+    return () => clearTimeout(timer);
+  }, [isMusicEnded, navigation]);
 
-        // 데이터 가져오기
-        const res = await fetchGoogleFitData(startDate, endDate);
-        setData(res);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    initializeAndFetchData();
-  }, []);
-
-  const handlePress = () => {
-    navigation.navigate('Condition'); // 'Condition' 화면으로 이동
+  // 페이스를 "분'초"" 형식으로 포맷팅하는 함수
+  const formatPace = pace => {
+    const minutes = Math.floor(pace);
+    const seconds = Math.round((pace - minutes) * 60);
+    return `${minutes}'${String(seconds).padStart(2, '0')}"`;
   };
 
   if (loading) {
@@ -46,43 +50,45 @@ function OnStory() {
 
   if (error) {
     return (
-      <View>
+      <View style={styles.screen}>
         <Text>Error: {error}</Text>
-        <Button
-          title="Retry"
-          onPress={() => {
-            setLoading(true);
-            setError(null);
-            initializeAndFetchData();
-          }}
-        />
+        <Button title="Retry" onPress={() => {}} />
       </View>
     );
   }
 
   return (
     <View style={styles.screen}>
-      <Text>
-        OnStory, {situation}, {condition}
-      </Text>
-      <Button title="Navigate to Condition" onPress={handlePress} />
-
-      {data && (
-        <View>
-          <Text>Activity Data:</Text>
-          <Text>{JSON.stringify(data, null, 2)}</Text>
-        </View>
-      )}
+      <Text>OnStory 화면</Text>
+      <View style={styles.modalContent}>
+        <Text>걸음 수: {steps}</Text>
+        <Text>거리: {distance.toFixed(2)} km</Text>
+        <Text>칼로리: {calories.toFixed(2)}</Text>
+        <Text>Pace: {formatPace(pace)}</Text>
+        <Text>AvgPace: {formatPace(averagePace)}</Text>
+        <Text>
+          경과 시간: {Math.floor(elapsedTime / 60)}:
+          {String(elapsedTime % 60).padStart(2, '0')}
+        </Text>
+        <Button title="일시정지" onPress={togglePause} />
+      </View>
     </View>
   );
-}
+};
 
-const styles = {
+const styles = StyleSheet.create({
   screen: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-};
+  modalContent: {
+    width: '80%',
+    padding: 20,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+});
 
 export default OnStory;
