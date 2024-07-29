@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -16,6 +16,52 @@ function StoryReport() {
 
   // route.params를 통해 OnStory에서 전달된 데이터 받기
   const {steps, distance, calories, averagePace, elapsedTime} = route.params;
+
+  const sendDataToBackend = async () => {
+    const memberId = 1;
+
+    const runningTime = {
+      hour: Math.floor(elapsedTime / 3600),
+      minute: Math.floor((elapsedTime % 3600) / 60),
+      second: elapsedTime % 60,
+      nano: 0, // 나노초가 필요하지 않으면 0으로 설정
+    };
+
+    const dataToSend = {
+      memberId,
+      runningDistance: distance,
+      runningTime,
+      recordDate: new Date().toISOString().split('T')[0],
+      recordPace: averagePace,
+      runningStep: steps,
+    };
+
+    try {
+      const response = await fetch(
+        'https://your-backend-endpoint.com/api/data',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dataToSend),
+        },
+      );
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log('Data sent successfully:', responseData);
+      } else {
+        console.error('Failed to send data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error sending data:', error);
+    }
+  };
+
+  useEffect(() => {
+    sendDataToBackend();
+  }, []);
 
   const handlePress = () => {
     navigation.navigate('StoryRanking'); // 'Details'는 이동할 화면의 이름입니다.
