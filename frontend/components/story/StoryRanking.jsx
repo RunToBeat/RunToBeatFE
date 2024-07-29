@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Button,
+} from 'react-native';
 import {defaultScreen} from '../../styles/layout';
 import {useNavigation} from '@react-navigation/native';
 
@@ -8,15 +15,12 @@ function StoryRanking() {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    navigation.navigate('Situation'); // 'Details'는 이동할 화면의 이름입니다.
+    navigation.navigate('Home'); // 'Details'는 이동할 화면의 이름입니다.
   };
 
   return (
     <View style={defaultScreen.screen}>
-      <TouchableOpacity onPress={handlePress}>
-        <Text>Story Ranking</Text>
-        <Image source={require('../../image/RunToBeat_logo.png')} />
-      </TouchableOpacity>
+      <Button title="Go To Home" onPress={handlePress} />
     </View>
   );
 }
