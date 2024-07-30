@@ -8,8 +8,8 @@ import {
   ScrollView,
   FlatList,
   Dimensions,
+  Alert,
 } from 'react-native';
-import {scrollScreen} from '../../styles/layout';
 import {useNavigation} from '@react-navigation/native';
 
 const {width} = Dimensions.get('window'); // 화면 너비 가져오기
@@ -33,8 +33,12 @@ function Home() {
     </TouchableOpacity>
   );
 
-  const handlePress = () => {
-    navigation.navigate('StoryHome');
+  const handleStoryPress = storyName => {
+    if (storyName === 'storyIndependence') {
+      navigation.navigate('StoryHome');
+    } else {
+      Alert.alert('Coming soon', '이 스토리는 준비 중입니다.');
+    }
   };
 
   return (
@@ -47,93 +51,73 @@ function Home() {
         showsHorizontalScrollIndicator={false} // 가로 스크롤 인디케이터 숨기기
         contentContainerStyle={styles.listContent}
       />
-      <Text>진행 중인 스토리</Text>
+      <Text style={styles.storySelectText}>진행 중인 스토리</Text>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.storyLists}>
-        <TouchableOpacity onPress={handlePress}>
+        <TouchableOpacity onPress={() => handleStoryPress('storyIndependence')}>
           <Image
             style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
+            source={require('../../image/storyIndependence.png')}
           />
         </TouchableOpacity>
       </ScrollView>
-      <Text>살고 싶다면 일단 뛰어!</Text>
+      <Text style={styles.storySelectText}>
+        전장의 한복판에서 (Coming soon)
+      </Text>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.storyLists}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => handleStoryPress('storyImage2')}>
           <Image
             style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
+            source={require('../../image/storyImage2.png')}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => handleStoryPress('storyImage6')}>
           <Image
             style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
+            source={require('../../image/storyImage6.png')}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => handleStoryPress('storyImage5')}>
           <Image
             style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
+            source={require('../../image/storyImage5.png')}
           />
         </TouchableOpacity>
       </ScrollView>
-      <Text>전장의 한복판에서</Text>
+      <Text style={styles.storySelectText}>
+        살고 싶다면 일단 뛰어! (Coming soon)
+      </Text>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.storyLists}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => handleStoryPress('storyImage3')}>
           <Image
             style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
+            source={require('../../image/storyImage3.png')}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => handleStoryPress('storyImage4')}>
           <Image
             style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
+            source={require('../../image/storyImage4.png')}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => handleStoryPress('storyImage1')}>
           <Image
             style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
+            source={require('../../image/storyImage1.png')}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => handleStoryPress('storyImage7')}>
           <Image
             style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
+            source={require('../../image/storyImage7.png')}
           />
         </TouchableOpacity>
       </ScrollView>
@@ -145,12 +129,26 @@ const styles = StyleSheet.create({
   screen: {
     flexGrow: 1,
     paddingLeft: '7%',
+    backgroundColor: 'white',
   },
+  storySelectText: {
+    color: 'black',
+    fontWeight: '700',
+    fontSize: 15,
+  },
+  // // resizeMode 적용
+  // image: {
+  //   width: width * 0.3, // 화면 너비의 30%
+  //   height: width * 0.6, // 화면 너비의 60%
+  //   resizeMode: 'contain', // 이미지 비율 유지
+  //   marginHorizontal: 5, // 이미지 사이의 간격
+  // },
   image: {
-    width: width * 0.3, // 화면 너비의 30%
-    height: width * 0.6, // 화면 너비의 60%
-    resizeMode: 'contain', // 이미지 비율 유지
-    marginHorizontal: 5, // 이미지 사이의 간격
+    width: width * 0.3,
+    height: width * 0.5,
+    marginRight: 12,
+    marginTop: 13,
+    marginBottom: 20,
   },
   listContent: {
     flexGrow: 1,

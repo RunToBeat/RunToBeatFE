@@ -41,6 +41,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+   project.ext.vectoricons = [
+    iconFontNames: ['FontAwesome.ttf', 'Ionicons.ttf'] // 사용할 폰트 파일 이름들을 여기에 추가합니다.
+]
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 }
 
 dependencies {
@@ -49,6 +54,9 @@ dependencies {
     implementation('com.google.firebase:firebase-analytics:21.2.0')
     implementation platform('com.google.firebase:firebase-bom:33.1.2')
     implementation('com.google.android.gms:play-services-auth:19.2.0')
+    implementation project(':react-native-vector-icons')
+
+
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
