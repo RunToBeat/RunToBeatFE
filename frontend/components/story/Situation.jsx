@@ -72,13 +72,14 @@ const styles = StyleSheet.create({
   bigContainer: {
     flex: 1,
     paddingHorizontal: '7%',
-    backgroundColor: 'white',
+    backgroundColor: '#F4F6FC',
+    paddingTop: 15,
   },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    paddingBottom: 50,
   },
   goBack: {
     color: 'black',
