@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -8,33 +8,51 @@ import {
   ScrollView,
   FlatList,
   Dimensions,
+  Alert,
 } from 'react-native';
-import {scrollScreen} from '../../styles/layout';
 import {useNavigation} from '@react-navigation/native';
 
 const {width} = Dimensions.get('window'); // 화면 너비 가져오기
 
 const topCategories = [
-  '홈',
-  '선사시대',
-  '삼국시대',
-  '고려시대',
-  '조선시대',
-  '일제강점기',
-  '근현대사',
+  {name: '홈', screen: 'HomeScreen'},
+  {name: '선사시대', screen: 'PrehistoricScreen'},
+  {name: '삼국시대', screen: 'ThreeKingdomsScreen'},
+  {name: '고려시대', screen: 'GoryeoScreen'},
+  {name: '조선시대', screen: 'JoseonScreen'},
+  {name: '일제강점기', screen: 'ColonialScreen'},
+  {name: '근현대사', screen: 'ModernHistoryScreen'},
 ];
 
 function Home() {
+  const [selectedCategory, setSelectedCategory] = useState('홈'); // 기본값 '홈'
   const navigation = useNavigation();
 
   const renderItem = ({item, index}) => (
-    <TouchableOpacity style={styles.itemContainer}>
-      <Text style={[styles.itemText, index === 0 && styles.black]}>{item}</Text>
+    <TouchableOpacity
+      style={styles.itemContainer}
+      onPress={() => {
+        setSelectedCategory(item.name);
+        if (item.name !== '홈') {
+          navigation.navigate(item.screen);
+        }
+      }}>
+      <Text
+        style={[
+          styles.itemText,
+          selectedCategory === item.name && styles.black,
+        ]}>
+        {item.name}
+      </Text>
     </TouchableOpacity>
   );
 
-  const handlePress = () => {
-    navigation.navigate('StoryHome');
+  const handleStoryPress = storyName => {
+    if (storyName === 'storyIndependence') {
+      navigation.navigate('StoryHome');
+    } else {
+      Alert.alert('Coming soon', '이 스토리는 준비 중입니다.');
+    }
   };
 
   return (
@@ -42,101 +60,119 @@ function Home() {
       <FlatList
         data={topCategories}
         renderItem={renderItem}
-        keyExtractor={item => item}
+        keyExtractor={item => item.name}
         horizontal // 가로 방향 스크롤
         showsHorizontalScrollIndicator={false} // 가로 스크롤 인디케이터 숨기기
         contentContainerStyle={styles.listContent}
       />
-      <Text>진행 중인 스토리</Text>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.storyLists}>
-        <TouchableOpacity onPress={handlePress}>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-      </ScrollView>
-      <Text>살고 싶다면 일단 뛰어!</Text>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.storyLists}>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-      </ScrollView>
-      <Text>전장의 한복판에서</Text>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.storyLists}>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={require('../../image/RunToBeat_logo.png')}
-          />
-        </TouchableOpacity>
-      </ScrollView>
+      {selectedCategory === '홈' && (
+        <>
+          <Text style={styles.storySelectText}>진행 중인 스토리</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.storyLists}>
+            <TouchableOpacity
+              onPress={() => handleStoryPress('storyIndependence')}>
+              <Image
+                style={styles.image}
+                source={require('../../image/storyIndependence.png')}
+              />
+            </TouchableOpacity>
+          </ScrollView>
+          <Text style={styles.storySelectText}>
+            전장의 한복판에서 (Coming soon)
+          </Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.storyLists}>
+            <TouchableOpacity onPress={() => handleStoryPress('storyImage2')}>
+              <Image
+                style={styles.image}
+                source={require('../../image/storyImage2.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleStoryPress('storyImage6')}>
+              <Image
+                style={styles.image}
+                source={require('../../image/storyImage6.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleStoryPress('storyImage5')}>
+              <Image
+                style={styles.image}
+                source={require('../../image/storyImage5.png')}
+              />
+            </TouchableOpacity>
+          </ScrollView>
+          <Text style={styles.storySelectText}>
+            살고 싶다면 일단 뛰어! (Coming soon)
+          </Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.storyLists}>
+            <TouchableOpacity onPress={() => handleStoryPress('storyImage3')}>
+              <Image
+                style={styles.image}
+                source={require('../../image/storyImage3.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleStoryPress('storyImage4')}>
+              <Image
+                style={styles.image}
+                source={require('../../image/storyImage4.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleStoryPress('storyImage1')}>
+              <Image
+                style={styles.image}
+                source={require('../../image/storyImage1.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleStoryPress('storyImage7')}>
+              <Image
+                style={styles.image}
+                source={require('../../image/storyImage7.png')}
+              />
+            </TouchableOpacity>
+          </ScrollView>
+        </>
+      )}
+      {selectedCategory === '선사시대' && (
+        <>
+          <Text style={styles.topCategoriesText}>
+            문명의 뿌리를 찾아서, 선사시대의 놀라운 이야기로 떠나보세요.
+          </Text>
+          <View>
+            <TouchableOpacity onPress={() => handleStoryPress('storyImage3')}>
+              <Image
+                style={styles.image}
+                source={require('../../image/storyImage3.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleStoryPress('storyImage4')}>
+              <Image
+                style={styles.image}
+                source={require('../../image/storyImage4.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleStoryPress('storyImage1')}>
+              <Image
+                style={styles.image}
+                source={require('../../image/storyImage1.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleStoryPress('storyImage7')}>
+              <Image
+                style={styles.image}
+                source={require('../../image/storyImage7.png')}
+              />
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
     </ScrollView>
   );
 }
@@ -145,12 +181,20 @@ const styles = StyleSheet.create({
   screen: {
     flexGrow: 1,
     paddingLeft: '7%',
+    backgroundColor: 'white',
+  },
+  storySelectText: {
+    color: 'black',
+    fontWeight: '700',
+    fontSize: 15,
   },
   image: {
-    width: width * 0.3, // 화면 너비의 30%
-    height: width * 0.6, // 화면 너비의 60%
-    resizeMode: 'contain', // 이미지 비율 유지
-    marginHorizontal: 5, // 이미지 사이의 간격
+    width: width * 0.3,
+    height: width * 0.5,
+    marginRight: 7,
+    marginTop: 13,
+    marginBottom: 20,
+    borderRadius: 3,
   },
   listContent: {
     flexGrow: 1,
@@ -169,6 +213,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   storyLists: {alignItems: 'center'},
+  topCategoriesText: {
+    fontSize: 20,
+    color: 'black',
+    fontWeight: 'bold',
+    marginRight: 80,
+  },
 });
 
 export default Home;
