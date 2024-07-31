@@ -248,6 +248,7 @@ export const useDataTracking = () => {
     averagePace, // 원시 평균 페이스 값을 반환
     elapsedTime,
     error,
+    isPaused,
     togglePause,
     isMusicEnded,
   };

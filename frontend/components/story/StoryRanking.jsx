@@ -20,9 +20,41 @@ function StoryRanking() {
 
   return (
     <View style={defaultScreen.screen}>
-      <Button title="Go To Home" onPress={handlePress} />
+      <TouchableOpacity onPress={handlePress} style={styles.button}>
+        <Text style={styles.btnText}>확인</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black',
+    paddingTop: '40%',
+  },
+  text: {
+    color: 'white',
+    fontSize: 40,
+    fontWeight: 'bold',
+  },
+  miniText: {
+    color: 'white',
+    fontSize: 15,
+  },
+  button: {
+    backgroundColor: 'white',
+    width: 120,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    marginTop: 40,
+  },
+  btnText: {
+    fontWeight: 'bold',
+  },
+});
 export default StoryRanking;

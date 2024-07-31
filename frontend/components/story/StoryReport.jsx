@@ -68,25 +68,85 @@ function StoryReport() {
   };
 
   return (
-    <View style={defaultScreen.screen}>
-      <Text>StoryReport</Text>
-      <Text style={styles.text}>걸음 수: {steps}</Text>
-      <Text style={styles.text}>거리: {distance.toFixed(2)} km</Text>
-      <Text style={styles.text}>칼로리: {calories.toFixed(2)}</Text>
-      <Text style={styles.text}>AvgPace: {averagePace}</Text>
-      <Text style={styles.text}>
-        경과 시간: {Math.floor(elapsedTime / 60)}:
-        {String(elapsedTime % 60).padStart(2, '0')}
-      </Text>
-      <Button title="Go to Ranking" onPress={handlePress}></Button>
+    <View style={styles.screen}>
+      <Image
+        source={require('../../image/mapImg.png')}
+        style={styles.mapImage}
+      />
+      <View style={styles.textWrap}>
+        <View style={styles.textBox}>
+          <Text style={styles.text}>{distance.toFixed(2)}</Text>
+          <Text style={styles.miniText}>거리 (Km)</Text>
+        </View>
+        <View style={styles.textBox}>
+          <Text style={styles.text}>{averagePace}</Text>
+          <Text style={styles.miniText}>평균 페이스</Text>
+        </View>
+      </View>
+
+      <View style={styles.textWrap}>
+        <View style={styles.textBox}>
+          <Text style={styles.text}>{calories.toFixed(2)}</Text>
+          <Text style={styles.miniText}>칼로리</Text>
+        </View>
+        <View style={styles.textBox}>
+          <Text style={styles.text}>{steps}</Text>
+          <Text style={styles.miniText}>걸음 수</Text>
+        </View>
+      </View>
+      <TouchableOpacity onPress={handlePress} style={styles.button}>
+        <Text style={styles.btnText}>확인</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: 'black',
+  },
   text: {
     fontSize: 18,
     marginVertical: 8,
+  },
+  textWrap: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '80%',
+  },
+  textBox: {
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  text: {
+    color: 'white',
+    fontSize: 40,
+    fontWeight: 'bold',
+  },
+  miniText: {
+    color: 'white',
+    fontSize: 15,
+  },
+  button: {
+    backgroundColor: 'white',
+    width: 120,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    marginTop: 40,
+  },
+  btnText: {
+    fontWeight: 'bold',
+  },
+  mapImage: {
+    width: '100%',
+    height: '40%',
+    resizeMode: 'cover',
   },
 });
 
