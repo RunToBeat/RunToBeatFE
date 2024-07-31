@@ -5,7 +5,6 @@ import {
   SensorTypes,
 } from 'react-native-sensors';
 import Geolocation from 'react-native-geolocation-service';
-import Sound from 'react-native-sound';
 
 export const useDataTracking = () => {
   const [steps, setSteps] = useState(0);
@@ -16,7 +15,6 @@ export const useDataTracking = () => {
   const [error, setError] = useState(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [isMusicEnded, setIsMusicEnded] = useState(false);
 
   const previousMagnitude = useRef(0);
   const stepCount = useRef(0);
@@ -30,52 +28,8 @@ export const useDataTracking = () => {
   let geoSubscription = useRef(null);
   let timerId = useRef(null);
 
-  const backgroundMusic = useRef(null);
-
   useEffect(() => {
     resetData();
-
-    // Load background music
-    backgroundMusic.current = new Sound(
-      require('../../sound/kimgu_introduce.mp3'),
-      error => {
-        if (error) {
-          console.log('Failed to load the sound', error);
-          return;
-        }
-        if (!isPaused) {
-          backgroundMusic.current.play(success => {
-            if (success) {
-              console.log('Music finished playing');
-              setIsMusicEnded(true);
-            } else {
-              console.log('Playback failed due to audio decoding errors');
-            }
-          });
-        }
-      },
-    );
-
-    const checkIfMusicEnded = () => {
-      if (backgroundMusic.current) {
-        backgroundMusic.current.getCurrentTime(seconds => {
-          backgroundMusic.current.getDuration(duration => {
-            if (seconds >= duration - 0.1) {
-              setIsMusicEnded(true);
-            }
-          });
-        });
-      }
-    };
-
-    const interval = setInterval(checkIfMusicEnded, 1000); // 1초마다 체크
-
-    return () => {
-      clearInterval(interval);
-      if (backgroundMusic.current) {
-        backgroundMusic.current.release();
-      }
-    };
   }, []);
 
   const resetData = () => {
@@ -96,7 +50,7 @@ export const useDataTracking = () => {
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const toRad = angle => (angle * Math.PI) / 180;
-    const R = 6371; // 지구의 반지름 (단위: km)
+    const R = 6371;
     const dLat = toRad(lat2 - lat1);
     const dLon = toRad(lon2 - lon1);
     const a =
@@ -110,13 +64,13 @@ export const useDataTracking = () => {
   };
 
   const calculateCalories = distance => {
-    const weight = 70; // 예: 70kg
+    const weight = 70;
     const calories = distance * weight * 1.036;
     return calories.toFixed(2);
   };
 
   const startAccelerometerTracking = () => {
-    setUpdateIntervalForType(SensorTypes.accelerometer, 400); // 0.4초마다 업데이트
+    setUpdateIntervalForType(SensorTypes.accelerometer, 400);
     accelSubscription.current = accelerometer.subscribe(({x, y, z}) => {
       if (isPaused) return;
       const magnitude = Math.sqrt(x * x + y * y + z * z);
@@ -145,17 +99,19 @@ export const useDataTracking = () => {
         const currentTime = Date.now();
 
         if (previousPosition.current) {
-          const {latitude: prevLat, longitude: prevLon} =
-            previousPosition.current;
+          const {
+            latitude: prevLat,
+            longitude: prevLon,
+            time: prevTime,
+          } = previousPosition.current;
           const newDistance = calculateDistance(
             prevLat,
             prevLon,
             latitude,
             longitude,
           );
-          const timeDiff =
-            (currentTime - previousPosition.current.time) / 60000; // 분 단위 시간 차이
 
+          const timeDiff = (currentTime - prevTime) / 60000;
           if (timeDiff > 0 && newDistance > 0) {
             const currentPace = timeDiff / newDistance;
             setPace(currentPace);
@@ -206,7 +162,6 @@ export const useDataTracking = () => {
           if (geoSubscription.current !== null)
             Geolocation.clearWatch(geoSubscription.current);
           if (timerId.current) clearInterval(timerId.current);
-          if (backgroundMusic.current) backgroundMusic.current.stop();
         };
       } catch (error) {
         setError('Initialization error');
@@ -220,22 +175,11 @@ export const useDataTracking = () => {
   const togglePause = () => {
     if (isPaused) {
       startTime.current = Date.now() - elapsedTime * 1000;
-      if (backgroundMusic.current && !backgroundMusic.current.isPlaying()) {
-        backgroundMusic.current.play(success => {
-          if (success) {
-            console.log('Music finished playing');
-            setIsMusicEnded(true);
-          } else {
-            console.log('Playback failed due to audio decoding errors');
-          }
-        });
-      }
     } else {
       if (accelSubscription.current) accelSubscription.current.unsubscribe();
       if (geoSubscription.current !== null)
         Geolocation.clearWatch(geoSubscription.current);
       if (timerId.current) clearInterval(timerId.current);
-      if (backgroundMusic.current) backgroundMusic.current.pause();
     }
     setIsPaused(prev => !prev);
   };
@@ -250,6 +194,5 @@ export const useDataTracking = () => {
     error,
     isPaused,
     togglePause,
-    isMusicEnded,
   };
 };

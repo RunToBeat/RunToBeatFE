@@ -80,18 +80,28 @@ function Condition() {
 }
 
 const styles = StyleSheet.create({
-  bigContainer: {
-    flex: 1,
-    paddingHorizontal: '7%',
-    backgroundColor: '#F4F6FC',
-    marginTop: 15,
-  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
     paddingBottom: 57,
+  },
+  textContainer: {
+    alignItems: 'flex-start',
+    marginBottom: 45,
+    // backgroundColor: 'red',
+  },
+  textBig: {
+    color: 'black',
+    fontSize: 26,
+    fontWeight: '700',
+    marginBottom: 7,
+  },
+  textSmall: {
+    color: 'black',
+    fontSize: 13,
+    fontWeight: '300',
   },
   textContainer: {
     alignItems: 'flex-start',

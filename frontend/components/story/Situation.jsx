@@ -9,6 +9,7 @@ import {
 import {defaultScreen} from '../../styles/layout';
 import {useNavigation} from '@react-navigation/native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const {width} = Dimensions.get('window');
 
@@ -23,7 +24,51 @@ function Situation() {
     navigation.navigate('StoryHome'); // 'StoryHome' 페이지로 네비게이트
   };
 
+  const goBack = () => {
+    navigation.navigate('StoryHome'); // 'StoryHome' 페이지로 네비게이트
+  };
+
   return (
+    <View style={styles.bigContainer}>
+      <TouchableOpacity onPress={goBack} style={styles.goBack}>
+        <IonIcon name={'chevron-back'} size={30} color="black" />
+      </TouchableOpacity>
+      <View style={styles.container}>
+        <View>
+          <View style={styles.textContainer}>
+            <Text style={styles.textBig}>상황 선택</Text>
+            <Text style={styles.textSmall}>주변 환경을 고려해 드려요</Text>
+          </View>
+          <View style={styles.selectContainer1}>
+            <View style={styles.selectContainer2}>
+              <TouchableOpacity
+                onPress={() => handlePress('car')}
+                style={styles.situation}>
+                <Image
+                  source={require('../../image/situation1.png')}
+                  style={styles.image1}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => handlePress('safe')}
+                style={styles.situation}>
+                <Image
+                  source={require('../../image/situation2.png')}
+                  style={styles.image1}
+                />
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              onPress={() => handlePress('safe')}
+              style={styles.situation}>
+              <Image
+                source={require('../../image/situation3.png')}
+                style={styles.image2}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
     <View style={styles.bigContainer}>
       <TouchableOpacity onPress={goBack} style={styles.goBack}>
         <IonIcon name={'chevron-back'} size={30} color="black" />
@@ -104,7 +149,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   selectContainer2: {
+  selectContainer2: {
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -116,7 +164,18 @@ const styles = StyleSheet.create({
     height: width * 0.45,
     resizeMode: 'contain',
     // aspectRatio: 1.4, // 비율을 1.4로 설정, 필요에 따라 조정
+    marginRight: '0.5%',
   },
+  image1: {
+    width: width * 0.4, // 부모 요소의 너비에 맞추기
+    height: width * 0.45,
+    resizeMode: 'contain',
+    // aspectRatio: 1.4, // 비율을 1.4로 설정, 필요에 따라 조정
+  },
+  image2: {
+    width: width * 0.8,
+    height: width * 0.35,
+    resizeMode: 'contain',
   image2: {
     width: width * 0.8,
     height: width * 0.35,
