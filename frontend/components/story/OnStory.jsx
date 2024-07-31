@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -8,14 +9,21 @@ import {
   TouchableOpacity,
   Modal,
 } from 'react-native';
+=======
+import React from 'react';
+import {View, Text, StyleSheet, Button, ActivityIndicator} from 'react-native';
+>>>>>>> a5dabd7d912b13d3845c8dd06b89330d89bd5d6b
 import {useDataTracking} from './useDataTracking';
 import {useNavigation} from '@react-navigation/native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const OnStory = () => {
   const navigation = useNavigation();
+<<<<<<< HEAD
   const [modalVisible, setModalVisible] = useState(false);
 
+=======
+>>>>>>> a5dabd7d912b13d3845c8dd06b89330d89bd5d6b
   const {
     steps,
     distance,
@@ -27,9 +35,9 @@ const OnStory = () => {
     error,
     isPaused,
     togglePause,
-    isMusicEnded,
   } = useDataTracking();
 
+<<<<<<< HEAD
   const closeModal = () => {
     setModalVisible(false);
     navigation.navigate('Home');
@@ -51,6 +59,11 @@ const OnStory = () => {
 
     return () => clearTimeout(timer);
   }, [isMusicEnded, navigation]);
+=======
+  const handlePress = () => {
+    navigation.navigate('Condition');
+  };
+>>>>>>> a5dabd7d912b13d3845c8dd06b89330d89bd5d6b
 
   const formatPace = pace => {
     const minutes = Math.floor(pace);
@@ -73,6 +86,7 @@ const OnStory = () => {
 
   return (
     <View style={styles.screen}>
+<<<<<<< HEAD
       <View style={styles.content}>
         <View style={styles.textBox}>
           <Text style={styles.text}>{distance.toFixed(2)}</Text>
@@ -130,6 +144,22 @@ const OnStory = () => {
             </View>
           </TouchableOpacity>
         </Modal>
+=======
+      <Text>OnStory 화면</Text>
+      <Button title="Condition 화면으로 이동" onPress={handlePress} />
+      <View style={styles.modalContent}>
+        <Text>OnStory 화면</Text>
+        <Text>걸음 수: {steps}</Text>
+        <Text>거리: {distance.toFixed(2)} km</Text>
+        <Text>칼로리: {calories.toFixed(2)}</Text>
+        <Text>Pace: {formatPace(pace)}</Text>
+        <Text>AvgPace: {formatPace(averagePace)}</Text>
+        <Text>
+          경과 시간: {Math.floor(elapsedTime / 60)}:
+          {String(elapsedTime % 60).padStart(2, '0')}
+        </Text>
+        <Button title="일시정지" onPress={togglePause} />
+>>>>>>> a5dabd7d912b13d3845c8dd06b89330d89bd5d6b
       </View>
     </View>
   );

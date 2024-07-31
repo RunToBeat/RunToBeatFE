@@ -5,14 +5,12 @@ import StoryHome from '../components/story/StoryHome';
 import Situation from '../components/story/Situation';
 import Condition from '../components/story/Condition';
 import OnStory from '../components/story/OnStory';
-import StoryEnding from '../components/story/StoryEnding';
-import StoryReport from '../components/story/StoryReport';
-import StoryRanking from '../components/story/StoryRanking';
 
 const Stack = createStackNavigator();
 
 function StoryStackNavigator() {
   return (
+<<<<<<< HEAD
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen
         name="Home"
@@ -54,6 +52,19 @@ function StoryStackNavigator() {
         component={StoryRanking}
         options={{tabBarStyle: {display: 'none'}}}
       />
+=======
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="StoryHome" component={StoryHome} />
+      <Stack.Screen name="Situation" component={Situation} />
+      <Stack.Screen name="Condition" component={Condition} />
+      <Stack.Screen name="OnStory" component={OnStory} />
+      {/* <Stack.Screen name="StoryMapReport" component={Details} />
+      <Stack.Screen name="StoryPaceReport" component={Details} />  */}
+>>>>>>> a5dabd7d912b13d3845c8dd06b89330d89bd5d6b
     </Stack.Navigator>
   );
 }
