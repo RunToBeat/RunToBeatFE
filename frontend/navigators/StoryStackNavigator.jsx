@@ -13,18 +13,47 @@ const Stack = createStackNavigator();
 
 function StoryStackNavigator() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="StoryHome" component={StoryHome} />
-      <Stack.Screen name="Situation" component={Situation} />
-      <Stack.Screen name="Condition" component={Condition} />
-      <Stack.Screen name="OnStory" component={OnStory} />
-      <Stack.Screen name="StoryEnding" component={StoryEnding} />
-      <Stack.Screen name="StoryReport" component={StoryReport} />
-      <Stack.Screen name="StoryRanking" component={StoryRanking} />
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{headerShown: true}} // Home에서는 tabBar 보이게
+      />
+      <Stack.Screen
+        name="StoryHome"
+        component={StoryHome}
+        options={{tabBarStyle: {display: 'none'}}} // 다른 화면에서는 tabBar 숨기기
+      />
+      <Stack.Screen
+        name="Situation"
+        component={Situation}
+        options={{tabBarStyle: {display: 'none'}}}
+      />
+      <Stack.Screen
+        name="Condition"
+        component={Condition}
+        options={{tabBarStyle: {display: 'none'}}}
+      />
+      <Stack.Screen
+        name="OnStory"
+        component={OnStory}
+        options={{tabBarStyle: {display: 'none'}}}
+      />
+      <Stack.Screen
+        name="StoryEnding"
+        component={StoryEnding}
+        options={{tabBarStyle: {display: 'none'}}}
+      />
+      <Stack.Screen
+        name="StoryReport"
+        component={StoryReport}
+        options={{tabBarStyle: {display: 'none'}}}
+      />
+      <Stack.Screen
+        name="StoryRanking"
+        component={StoryRanking}
+        options={{tabBarStyle: {display: 'none'}}}
+      />
     </Stack.Navigator>
   );
 }
