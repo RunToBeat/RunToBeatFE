@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,13 +8,14 @@ import {
   ScrollView,
   FlatList,
   Dimensions,
+  ActivityIndicator,
   Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
 
-const {width} = Dimensions.get('window'); // 화면 너비 가져오기
+const {width} = Dimensions.get('window');
 
-// 이미지 파일 참조 및 키 설정
 const images = {
   storyIndependence: require('../../image/storyIndependence.png'),
   storyImage1: require('../../image/storyImage1.png'),
@@ -44,6 +45,24 @@ const stories = [
 function MyPage() {
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState(topCategories[0]);
+  const [myAvgPace, setMyAvgPace] = useState(null);
+  const [totalDistance, setTotalDistance] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get('http://192.168.107.9:8080/record/mypage/total-running-info/1')
+      .then(response => {
+        console.log('Data fetched:', response.data); // 데이터 출력
+        setMyAvgPace(response.data.myAvgPace);
+        setTotalDistance(response.data.totalDistance);
+        setLoading(false); // 데이터 로드 완료
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+        setLoading(false); // 에러 발생 시 로딩 종료
+      });
+  }, []);
 
   const renderItem = ({item}) => (
     <TouchableOpacity
@@ -60,11 +79,10 @@ function MyPage() {
     if (key === 'storyIndependence') {
       navigation.navigate('StoryHome');
     } else {
-      Alert.alert('Comming soon', '해당 스토리는 현재 준비중입니다.');
+      Alert.alert('Coming soon', '해당 스토리는 현재 준비중입니다.');
     }
   };
 
-  // 선택된 카테고리에 맞는 스토리들 필터링
   const filteredStories = stories.filter(
     story => story.category === selectedCategory,
   );
@@ -75,8 +93,20 @@ function MyPage() {
         <Image style={styles.profileImage} source={images.myPageProfile} />
         <View>
           <Text style={styles.profileName}>춘식이 누나</Text>
-          <Text>누적 거리</Text>
-          <Text>평균 페이스</Text>
+          {loading ? (
+            <ActivityIndicator size="small" color="#0000ff" />
+          ) : (
+            <>
+              <Text>
+                누적 거리:{' '}
+                {totalDistance !== null ? totalDistance.toFixed(2) : '0.00'} km
+              </Text>
+              <Text>
+                평균 페이스:{' '}
+                {myAvgPace !== null ? myAvgPace.toFixed(2) : '0.00'} m/km
+              </Text>
+            </>
+          )}
         </View>
       </View>
       <View style={styles.historyContainer}>
@@ -168,21 +198,13 @@ const styles = StyleSheet.create({
   storyContainer: {
     paddingLeft: '7%',
   },
-  //  // resizeMode 적용
-  // image: {
-  //   width: width * 0.3,
-  //   height: width * 0.47,
-  //   resizeMode: 'contain',
-  //   marginRight: 5,
-  //   marginTop: 15,
-  //   marginBottom: 30,
-  // },
   image: {
     width: width * 0.3,
-    height: width * 0.47,
+    height: width * 0.5,
     marginRight: 12,
-    marginTop: 15,
+    marginTop: 13,
     marginBottom: 20,
+    borderRadius: 3,
   },
   premiumImageContainer: {
     paddingHorizontal: '7%',
