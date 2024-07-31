@@ -60,7 +60,7 @@ function MyPage() {
     if (key === 'storyIndependence') {
       navigation.navigate('StoryHome');
     } else {
-      Alert.alert('Comming soon', '해당 스토리는 현재 준비중입니다.');
+      Alert.alert('Coming soon', '해당 스토리는 현재 준비중입니다.');
     }
   };
 
@@ -168,22 +168,21 @@ const styles = StyleSheet.create({
   storyContainer: {
     paddingLeft: '7%',
   },
-  //  // resizeMode 적용
-  // image: {
-  //   width: width * 0.3,
-  //   height: width * 0.47,
-  //   resizeMode: 'contain',
-  //   marginRight: 5,
-  //   marginTop: 15,
-  //   marginBottom: 30,
-  // },
   image: {
     width: width * 0.3,
-    height: width * 0.47,
+    height: width * 0.5,
     marginRight: 12,
-    marginTop: 15,
+    marginTop: 13,
     marginBottom: 20,
+    borderRadius: 3,
   },
+  // resize 모드 적용
+  // image: {
+  //   width: width * 0.3, // 화면 너비의 30%
+  //   height: width * 0.6, // 화면 너비의 60%
+  //   resizeMode: 'contain', // 이미지 비율 유지
+  //   marginRight: 5, // 이미지 사이의 간격
+  // },
   premiumImageContainer: {
     paddingHorizontal: '7%',
     marginBottom: 20,
