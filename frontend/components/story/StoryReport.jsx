@@ -1,13 +1,5 @@
 import React, {useEffect} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Button,
-} from 'react-native';
-import {defaultScreen} from '../../styles/layout';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
 function StoryReport() {
@@ -73,7 +65,12 @@ function StoryReport() {
         source={require('../../image/mapImg.png')}
         style={styles.mapImage}
       />
-      <View style={styles.textWrap}>
+      <View style={styles.textWrap1}>
+        <Text style={styles.textBig}>1화. K에게 가다</Text>
+        <Text style={styles.textSmall}>2024년 8월 3일 15:33</Text>
+      </View>
+      <View style={styles.line} />
+      <View style={styles.textWrap2}>
         <View style={styles.textBox}>
           <Text style={styles.text}>{distance.toFixed(2)}</Text>
           <Text style={styles.miniText}>거리 (Km)</Text>
@@ -84,7 +81,7 @@ function StoryReport() {
         </View>
       </View>
 
-      <View style={styles.textWrap}>
+      <View style={styles.textWrap2}>
         <View style={styles.textBox}>
           <Text style={styles.text}>{calories.toFixed(2)}</Text>
           <Text style={styles.miniText}>칼로리</Text>
@@ -112,7 +109,28 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginVertical: 8,
   },
-  textWrap: {
+  textWrap1: {
+    alignItems: 'center',
+  },
+  textBig: {
+    color: 'white',
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginVertical: 10,
+  },
+  textSmall: {
+    color: 'white',
+    fontSize: 13,
+    marginBottom: 10,
+  },
+  line: {
+    height: 1, // 선의 두께
+    backgroundColor: 'grey',
+    marginTop: 10, // 텍스트와 선 사이의 간격
+    width: '100%', // 선의 길이
+    marginBottom: 20,
+  },
+  textWrap2: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -142,6 +160,9 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontWeight: 'bold',
+    fontSize: 23,
+    color: 'black',
+    textAlign: 'center',
   },
   mapImage: {
     width: '100%',
