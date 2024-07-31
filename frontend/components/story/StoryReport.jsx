@@ -1,61 +1,47 @@
 import React, {useEffect} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Button,
-} from 'react-native';
-import {defaultScreen} from '../../styles/layout';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import axios from 'axios';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
 function StoryReport() {
   const navigation = useNavigation();
-  const route = useRoute(); // route 객체 가져오기
+  const route = useRoute();
 
   // route.params를 통해 OnStory에서 전달된 데이터 받기
   const {steps, distance, calories, averagePace, elapsedTime} = route.params;
 
+  // 데이터 전송 함수
   const sendDataToBackend = async () => {
-    const memberId = 1;
+    const memberId = 1; // 예시로 memberId를 1로 설정
 
-    const runningTime = {
-      hour: Math.floor(elapsedTime / 3600),
-      minute: Math.floor((elapsedTime % 3600) / 60),
-      second: elapsedTime % 60,
-      nano: 0, // 나노초가 필요하지 않으면 0으로 설정
-    };
-
+    // 백엔드로 보낼 데이터
     const dataToSend = {
       memberId,
-      runningDistance: distance,
-      runningTime,
+      runningDistance: parseFloat(distance.toFixed(2)),
+      runningTime: parseFloat(elapsedTime.toFixed(2)),
       recordDate: new Date().toISOString().split('T')[0],
-      recordPace: averagePace,
+      recordPace: parseFloat(averagePace.toFixed(2)),
       runningStep: steps,
     };
 
     try {
-      const response = await fetch(
-        'https://your-backend-endpoint.com/api/data',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(dataToSend),
-        },
+      console.log('Sending data to backend...', dataToSend);
+      const response = await axios.post(
+        `http://192.168.107.9:8080/record`,
+        dataToSend,
       );
-
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log('Data sent successfully:', responseData);
-      } else {
-        console.error('Failed to send data:', response.statusText);
-      }
+      console.log('Data sent successfully:', response.data);
     } catch (error) {
-      console.error('Error sending data:', error);
+      if (error.response) {
+        console.error('Response error:', error.response.data);
+        console.error('Response status:', error.response.status);
+        console.error('Response headers:', error.response.headers);
+      } else if (error.request) {
+        console.error('No response received:', error.request);
+      } else {
+        console.error('Request setup error:', error.message);
+      }
+      console.error('Error config:', error.config);
     }
   };
 
@@ -64,7 +50,7 @@ function StoryReport() {
   }, []);
 
   const handlePress = () => {
-    navigation.navigate('StoryRanking'); // 'Details'는 이동할 화면의 이름입니다.
+    navigation.navigate('StoryRanking');
   };
 
   return (
@@ -73,18 +59,24 @@ function StoryReport() {
         source={require('../../image/mapImg.png')}
         style={styles.mapImage}
       />
-      <View style={styles.textWrap}>
+      <View style={styles.textWrap1}>
+        <Text style={styles.textBig}>1화. K에게 가다</Text>
+        <Text style={styles.textSmall}>2024년 8월 3일 15:33</Text>
+      </View>
+      <View style={styles.line} />
+
+      <View style={styles.textWrap2}>
         <View style={styles.textBox}>
           <Text style={styles.text}>{distance.toFixed(2)}</Text>
           <Text style={styles.miniText}>거리 (Km)</Text>
         </View>
         <View style={styles.textBox}>
-          <Text style={styles.text}>{averagePace}</Text>
+          <Text style={styles.text}>{averagePace.toFixed(2)}</Text>
           <Text style={styles.miniText}>평균 페이스</Text>
         </View>
       </View>
 
-      <View style={styles.textWrap}>
+      <View style={styles.textWrap2}>
         <View style={styles.textBox}>
           <Text style={styles.text}>{calories.toFixed(2)}</Text>
           <Text style={styles.miniText}>칼로리</Text>
@@ -109,10 +101,37 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   text: {
-    fontSize: 18,
-    marginVertical: 8,
+    color: 'white',
+    fontSize: 40,
+    fontWeight: 'bold',
   },
-  textWrap: {
+  textWrap1: {
+    alignItems: 'center',
+  },
+  textBig: {
+    color: 'white',
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginVertical: 10,
+  },
+  textSmall: {
+    color: 'white',
+    fontSize: 13,
+    marginBottom: 10,
+  },
+  line: {
+    height: 1, // 선의 두께
+    backgroundColor: 'grey',
+    marginTop: 10, // 텍스트와 선 사이의 간격
+    width: '100%', // 선의 길이
+    marginBottom: 20,
+  },
+
+  miniText: {
+    color: 'white',
+    fontSize: 15,
+  },
+  textWrap2: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -121,15 +140,6 @@ const styles = StyleSheet.create({
   textBox: {
     alignItems: 'center',
     marginVertical: 20,
-  },
-  text: {
-    color: 'white',
-    fontSize: 40,
-    fontWeight: 'bold',
-  },
-  miniText: {
-    color: 'white',
-    fontSize: 15,
   },
   button: {
     backgroundColor: 'white',
@@ -142,6 +152,9 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontWeight: 'bold',
+    fontSize: 23,
+    color: 'black',
+    textAlign: 'center',
   },
   mapImage: {
     width: '100%',
