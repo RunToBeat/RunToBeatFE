@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
     marginRight: 12,
     marginTop: 13,
     marginBottom: 20,
+    borderRadius: 3,
   },
   // resize 모드 적용
   // image: {
