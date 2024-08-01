@@ -64,7 +64,6 @@ function StoryReport() {
         <Text style={styles.textSmall}>2024년 8월 3일 15:33</Text>
       </View>
       <View style={styles.line} />
-
       <View style={styles.textWrap2}>
         <View style={styles.textBox}>
           <Text style={styles.text}>{distance.toFixed(2)}</Text>
@@ -126,7 +125,6 @@ const styles = StyleSheet.create({
     width: '100%', // 선의 길이
     marginBottom: 20,
   },
-
   miniText: {
     color: 'white',
     fontSize: 15,

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
@@ -17,9 +18,16 @@ const {width} = Dimensions.get('window'); // 화면 너비 가져오기
 function StoryHome() {
   const navigation = useNavigation();
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [currentEpisodeId, setCurrentEpisodeId] = useState(1); // 현재 에피소드 상태 추가
 
-  const handlePress = () => {
-    navigation.navigate('Situation');
+  const handlePress = episodeId => {
+    if (episodeId === 1) {
+      navigation.navigate('Situation');
+    } else if (episodeId === 2) {
+      Alert.alert('Coming soon', '이 스토리는 준비 중입니다.');
+    } else {
+      Alert.alert('', '이전 에피소드를 완료해야 달릴 수 있습니다.');
+    }
   };
 
   const toggleBookmark = () => {
@@ -29,8 +37,6 @@ function StoryHome() {
   const goBack = () => {
     navigation.navigate('Home'); // 'Home' 페이지로 네비게이트
   };
-
-  // Array of episodes with overlays
   const episodes = [
     {
       id: 1,
@@ -38,6 +44,7 @@ function StoryHome() {
       description:
         '나라의 미래가 달려있는 중요한 문서를 K라는 사람에게 전달해달라는 부탁을 받았다. 그런데 K가 누구지?',
       image: require('../../image/episode1.png'),
+      mainImage: require('../../image/BigEpisode1.png'), // 에피소드 별 mainImage 추가
       showOverlay: false,
     },
     {
@@ -46,6 +53,7 @@ function StoryHome() {
       description:
         '1919년 4월 11일 상해에서 대한민국 임시정부 수립되고 이승만 초대 대통령 취임했습니다.',
       image: require('../../image/episode2.png'),
+      mainImage: require('../../image/episode2.png'), // 에피소드 별 mainImage 추가
       showOverlay: false,
     },
     {
@@ -54,6 +62,7 @@ function StoryHome() {
       description:
         '독립운동 지도와 외교 활동을 전개하며 국내외에서 독립운동 지원 및 연대 활동합니다.',
       image: require('../../image/episode3.png'),
+      mainImage: require('../../image/episode2.png'), // 에피소드 별 mainImage 추가
       showOverlay: true,
     },
     {
@@ -62,6 +71,7 @@ function StoryHome() {
       description:
         '대한민국의 독립운동가이자 언론인으로, 3.1 운동 당시 독립 선언문을 작성하고 선포한 인물로 잘 알려져 있습니다.',
       image: require('../../image/episode4.png'),
+      mainImage: require('../../image/episode2.png'), // 에피소드 별 mainImage 추가
       showOverlay: true,
     },
     {
@@ -70,9 +80,15 @@ function StoryHome() {
       description:
         "'지금 나에겐 만세운동을 지도하는 것보다는 어서 망명해 독립운동을 계획하는 것이 더 중요하다.'",
       image: require('../../image/episode5.png'),
+      mainImage: require('../../image/episode2.png'), // 에피소드 별 mainImage 추가
       showOverlay: true,
     },
   ];
+
+  // 현재 에피소드에 해당하는 이미지 가져오기
+  const currentEpisode = episodes.find(
+    episode => episode.id === currentEpisodeId,
+  );
 
   return (
     <ScrollView style={styles.container}>
@@ -89,34 +105,35 @@ function StoryHome() {
           />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={handlePress}>
+      <TouchableOpacity onPress={() => handlePress(currentEpisodeId)}>
         <Image
           style={styles.mainImage}
-          source={require('../../image/BigEpisode1.png')}
+          source={currentEpisode?.mainImage} // 현재 에피소드의 mainImage 표시
         />
       </TouchableOpacity>
       <View style={styles.episodeTextContainer}>
         <Text style={styles.episodeText1}>
-          현재 진행중인 에피소드: 1화.K에게 가다
+          현재 진행중인 에피소드: {currentEpisode?.title}
         </Text>
-        <Text style={styles.episodeText2}>
-          나라의 미래가 달려있는 중요한 문서를 K라는 사람에게 전달해달라는
-          부탁을 받았다. 그런데 K가 누구지?
-        </Text>
+        <Text style={styles.episodeText2}>{currentEpisode?.description}</Text>
       </View>
       <View style={styles.line} />
       <View style={styles.episodeListContainer}>
         {episodes.map(episode => (
-          <View key={episode.id} style={styles.episodeBackground}>
-            {episode.showOverlay && <View style={styles.overlay} />}
-            <View style={styles.episodeContainer}>
-              <Image style={styles.episodeImage} source={episode.image} />
-              <View style={styles.expContainer}>
-                <Text style={styles.episodeTitle}>{episode.title}</Text>
-                <Text style={styles.episodeExp}>{episode.description}</Text>
+          <TouchableOpacity
+            key={episode.id}
+            onPress={() => handlePress(episode.id)}>
+            <View style={styles.episodeBackground}>
+              {episode.showOverlay && <View style={styles.overlay} />}
+              <View style={styles.episodeContainer}>
+                <Image style={styles.episodeImage} source={episode.image} />
+                <View style={styles.expContainer}>
+                  <Text style={styles.episodeTitle}>{episode.title}</Text>
+                  <Text style={styles.episodeExp}>{episode.description}</Text>
+                </View>
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>

@@ -27,7 +27,6 @@ const OnStory = () => {
     error,
     isPaused,
     togglePause,
-    isMusicEnded,
   } = useDataTracking();
 
   const closeModal = () => {
