@@ -5,6 +5,9 @@ import StoryHome from '../components/story/StoryHome';
 import Situation from '../components/story/Situation';
 import Condition from '../components/story/Condition';
 import OnStory from '../components/story/OnStory';
+import StoryEnding from '../components/story/StoryEnding';
+import StoryReport from '../components/story/StoryReport';
+import StoryRanking from '../components/story/StoryRanking';
 
 const Stack = createStackNavigator();
 
