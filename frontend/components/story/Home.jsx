@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -22,13 +23,36 @@ const topCategories = [
   {name: '조선시대', screen: 'JoseonScreen'},
   {name: '일제강점기', screen: 'ColonialScreen'},
   {name: '근현대사', screen: 'ModernHistoryScreen'},
+  {name: '홈', screen: 'HomeScreen'},
+  {name: '선사시대', screen: 'PrehistoricScreen'},
+  {name: '삼국시대', screen: 'ThreeKingdomsScreen'},
+  {name: '고려시대', screen: 'GoryeoScreen'},
+  {name: '조선시대', screen: 'JoseonScreen'},
+  {name: '일제강점기', screen: 'ColonialScreen'},
+  {name: '근현대사', screen: 'ModernHistoryScreen'},
 ];
 
 function Home() {
   const [selectedCategory, setSelectedCategory] = useState('홈'); // 기본값 '홈'
+  const [selectedCategory, setSelectedCategory] = useState('홈'); // 기본값 '홈'
   const navigation = useNavigation();
 
   const renderItem = ({item, index}) => (
+    <TouchableOpacity
+      style={styles.itemContainer}
+      onPress={() => {
+        setSelectedCategory(item.name);
+        if (item.name !== '홈') {
+          navigation.navigate(item.screen);
+        }
+      }}>
+      <Text
+        style={[
+          styles.itemText,
+          selectedCategory === item.name && styles.black,
+        ]}>
+        {item.name}
+      </Text>
     <TouchableOpacity
       style={styles.itemContainer}
       onPress={() => {
@@ -60,6 +84,7 @@ function Home() {
       <FlatList
         data={topCategories}
         renderItem={renderItem}
+        keyExtractor={item => item.name}
         keyExtractor={item => item.name}
         horizontal // 가로 방향 스크롤
         showsHorizontalScrollIndicator={false} // 가로 스크롤 인디케이터 숨기기
@@ -195,8 +220,10 @@ const styles = StyleSheet.create({
     width: width * 0.3,
     height: width * 0.5,
     marginRight: 7,
+    marginRight: 7,
     marginTop: 13,
     marginBottom: 20,
+    borderRadius: 3,
     borderRadius: 3,
   },
   listContent: {

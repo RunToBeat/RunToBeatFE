@@ -234,10 +234,31 @@ const styles = StyleSheet.create({
     padding: 10,
     position: 'relative', // overlay와 같이 사용하기 위해
     zIndex: 1, // overlay 위에 배치
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    position: 'relative', // overlay와 같이 사용하기 위해
+    zIndex: 1, // overlay 위에 배치
   },
   episodeImage: {
     width: width * 0.15,
     height: width * 0.15,
+    resizeMode: 'contain',
+  },
+  expContainer: {
+    padding: 5,
+    paddingLeft: 10,
+    maxWidth: width * 0.73,
+  },
+  episodeTitle: {
+    color: 'black',
+    fontSize: 14,
+    fontWeight: '600',
+    marginBottom: 5,
+  },
+  episodeExp: {
+    color: 'black',
+    fontSize: 11,
     resizeMode: 'contain',
   },
   expContainer: {

@@ -28,6 +28,10 @@ function Condition() {
     navigation.navigate('Situation'); // 'StoryHome' 페이지로 네비게이트
   };
 
+  const goBack = () => {
+    navigation.navigate('Situation'); // 'StoryHome' 페이지로 네비게이트
+  };
+
   return (
     <View style={styles.bigContainer}>
       <TouchableOpacity onPress={goBack} style={styles.goBack}>
@@ -85,12 +89,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: '7%',
     backgroundColor: 'white',
   },
+  bigContainer: {
+    flex: 1,
+    paddingHorizontal: '7%',
+    backgroundColor: 'white',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     alignItems: 'center',
     padding: 20,
+  },
+  textContainer: {
+    alignItems: 'flex-start',
+    marginBottom: 45,
+    // backgroundColor: 'red',
+  },
+  textBig: {
+    color: 'black',
+    fontSize: 26,
+    fontWeight: '700',
+    marginBottom: 7,
+  },
+  textSmall: {
+    color: 'black',
+    fontSize: 13,
+    fontWeight: '300',
   },
   textContainer: {
     alignItems: 'flex-start',
@@ -117,7 +142,6 @@ const styles = StyleSheet.create({
   situation: {
     width: '48%', // 각 이미지의 너비 (전체의 절반 - 간격을 위한 여유)
     aspectRatio: 1, // 정사각형 비율 유지
-    marginBottom: 8, // 아래쪽 간격
     marginBottom: 8, // 아래쪽 간격
     marginRight: '2%', // 항목 간의 가로 간격
   },
