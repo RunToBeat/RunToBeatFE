@@ -5,7 +5,6 @@ import {
   SensorTypes,
 } from 'react-native-sensors';
 import Geolocation from 'react-native-geolocation-service';
-import Sound from 'react-native-sound';
 
 export const useDataTracking = () => {
   const [steps, setSteps] = useState(0);
@@ -17,7 +16,6 @@ export const useDataTracking = () => {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isMusicEnded, setIsMusicEnded] = useState(false); // 추가된 상태
-
   const previousMagnitude = useRef(0);
   const stepCount = useRef(0);
   const lastStepTime = useRef(Date.now());
@@ -29,6 +27,7 @@ export const useDataTracking = () => {
   let accelSubscription = useRef(null);
   let geoSubscription = useRef(null);
   let timerId = useRef(null);
+
   let sound = useRef(null); // 음악 플레이어 참조
 
   useEffect(() => {
