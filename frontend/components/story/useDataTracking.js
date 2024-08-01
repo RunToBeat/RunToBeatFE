@@ -28,6 +28,7 @@ export const useDataTracking = () => {
   let accelSubscription = useRef(null);
   let geoSubscription = useRef(null);
   let timerId = useRef(null);
+
   let sound = useRef(null); // 음악 플레이어 참조
 
   useEffect(() => {

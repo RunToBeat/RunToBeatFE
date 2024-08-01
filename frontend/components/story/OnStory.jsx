@@ -36,25 +36,22 @@ const OnStory = () => {
   };
 
   useEffect(() => {
+    let timer;
     if (isMusicEnded) {
-      // 음악이 끝났을 때 스토리 종료 페이지로 이동
-      navigation.navigate('StoryEnding', {
-        steps,
-        distance,
-        calories,
-        averagePace,
-        elapsedTime,
-      });
+      timer = setTimeout(() => {
+        navigation.navigate('StoryEnding', {
+          steps,
+          distance,
+          calories,
+          averagePace,
+          elapsedTime,
+        });
+      }, 1500); // 1.5초 대기
     }
-  }, [
-    isMusicEnded,
-    navigation,
-    steps,
-    distance,
-    calories,
-    averagePace,
-    elapsedTime,
-  ]);
+
+    // 컴포넌트가 언마운트될 때 타이머 정리
+    return () => clearTimeout(timer);
+  }, [isMusicEnded, navigation]);
 
   const formatPace = pace => {
     const minutes = Math.floor(pace);

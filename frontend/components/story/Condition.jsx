@@ -12,6 +12,7 @@ import {defaultScreen} from '../../styles/layout';
 import {useNavigation} from '@react-navigation/native';
 import {useRoute} from '@react-navigation/native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const {width} = Dimensions.get('window');
 
@@ -22,6 +23,10 @@ function Condition() {
 
   const handlePress = (situation, condition) => {
     navigation.navigate('OnStory', {situation, condition}); // 'Situation'으로 이동
+  };
+
+  const goBack = () => {
+    navigation.navigate('Situation'); // 'StoryHome' 페이지로 네비게이트
   };
 
   const goBack = () => {
@@ -93,7 +98,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     alignItems: 'center',
     padding: 20,
   },
