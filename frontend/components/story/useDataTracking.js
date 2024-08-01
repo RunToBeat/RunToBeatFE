@@ -5,6 +5,8 @@ import {
   SensorTypes,
 } from 'react-native-sensors';
 import Geolocation from 'react-native-geolocation-service';
+import Sound from 'react-native-sound';
+
 
 export const useDataTracking = () => {
   const [steps, setSteps] = useState(0);

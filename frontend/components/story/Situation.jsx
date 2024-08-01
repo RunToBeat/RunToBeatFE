@@ -25,9 +25,11 @@ function Situation() {
 
   return (
     <View style={styles.bigContainer}>
-      <TouchableOpacity onPress={goBack} style={styles.goBack}>
-        <IonIcon name={'chevron-back'} size={30} color="black" />
-      </TouchableOpacity>
+      <View style={styles.backKey}>
+        <TouchableOpacity onPress={goBack} style={styles.goBack}>
+          <IonIcon name={'chevron-back'} size={30} color="black" />
+        </TouchableOpacity>
+      </View>
       <View style={styles.container}>
         <View>
           <View style={styles.textContainer}>
@@ -72,34 +74,13 @@ const styles = StyleSheet.create({
   bigContainer: {
     flex: 1,
     paddingHorizontal: '7%',
-    backgroundColor: '#F4F6FC',
-    paddingTop: 15,
+    backgroundColor: 'white',
+  },
+  backKey: {
+    marginTop: 30,
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingBottom: 50,
-  },
-  goBack: {
-    color: 'black',
-  },
-  textContainer: {
-    alignItems: 'flex-start',
-    marginBottom: 45,
-  },
-  textBig: {
-    color: 'black',
-    fontSize: 26,
-    fontWeight: '700',
-    marginBottom: 7,
-  },
-  textSmall: {
-    color: 'black',
-    fontSize: 13,
-    fontWeight: '300',
-  },
-  selectContainer1: {
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
@@ -130,8 +111,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   situation: {
     marginRight: '0.5%',
@@ -142,10 +121,10 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     // aspectRatio: 1.4, // 비율을 1.4로 설정, 필요에 따라 조정
   },
-  image: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain', // 이미지 비율 유지
+  image2: {
+    width: width * 0.8,
+    height: width * 0.35,
+    resizeMode: 'contain',
   },
 });
 
