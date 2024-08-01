@@ -90,6 +90,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    paddingBottom: 57,
+  },
+  textContainer: {
+    alignItems: 'flex-start',
+    marginBottom: 45,
+    // backgroundColor: 'red',
+  },
+  textBig: {
+    color: 'black',
+    fontSize: 26,
+    fontWeight: '700',
+    marginBottom: 7,
+  },
+  textSmall: {
+    color: 'black',
+    fontSize: 13,
+    fontWeight: '300',
   },
   textContainer: {
     alignItems: 'flex-start',
@@ -110,8 +127,8 @@ const styles = StyleSheet.create({
   situationBox: {
     flexDirection: 'row',
     flexWrap: 'wrap', // 2x2 그리드로 배치
-    justifyContent: 'space-between', // 아이템 사이 간격 조정
-    width: width * 0.8,
+    justifyContent: 'center', // 아이템 사이 간격 조정
+    width: width * 0.82,
   },
   situation: {
     width: '48%', // 각 이미지의 너비 (전체의 절반 - 간격을 위한 여유)
