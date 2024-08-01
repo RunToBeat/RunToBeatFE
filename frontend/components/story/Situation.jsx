@@ -134,15 +134,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   situation: {
-    width: '48%', // 각 이미지의 너비 (전체의 절반 - 간격을 위한 여유)
-    aspectRatio: 1, // 정사각형 비율 유지
-    marginBottom: 10, // 아래쪽 간격
-    marginRight: '2%', // 항목 간의 가로 간격
+    marginRight: '0.5%',
   },
-  inside: {
-    width: '100%', // 각 이미지의 너비 (전체의 절반 - 간격을 위한 여유)
-    aspectRatio: 1, // 정사각형 비율 유지
-    backgroundColor: 'yellow', // 확인용 배경색
+  image1: {
+    width: width * 0.4, // 부모 요소의 너비에 맞추기
+    height: width * 0.45,
+    resizeMode: 'contain',
+    // aspectRatio: 1.4, // 비율을 1.4로 설정, 필요에 따라 조정
   },
   image: {
     width: '100%',
@@ -156,12 +154,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     // aspectRatio: 1.4, // 비율을 1.4로 설정, 필요에 따라 조정
     marginRight: '0.5%',
-  },
-  image1: {
-    width: width * 0.4, // 부모 요소의 너비에 맞추기
-    height: width * 0.45,
-    resizeMode: 'contain',
-    // aspectRatio: 1.4, // 비율을 1.4로 설정, 필요에 따라 조정
   },
 
   image2: {

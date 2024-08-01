@@ -174,15 +174,19 @@ const styles = StyleSheet.create({
   storyTitle: {
     color: 'white',
     fontSize: 21,
+    fontSize: 21,
     fontWeight: '500',
+    paddingBottom: 5,
     paddingBottom: 5,
   },
   mainImage: {
     width: width,
     height: width * 0.6,
+    height: width * 0.6,
     resizeMode: 'contain',
   },
   episodeTextContainer: {
+    paddingLeft: '4%',
     paddingLeft: '4%',
     paddingRight: '3%',
   },
@@ -190,10 +194,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     marginTop: 9,
+    marginTop: 9,
     marginBottom: 5,
   },
   episodeText2: {
     color: 'white',
+    fontSize: 12,
+    fontWeight: '200',
     fontSize: 12,
     fontWeight: '200',
   },
@@ -234,10 +241,31 @@ const styles = StyleSheet.create({
     padding: 10,
     position: 'relative', // overlay와 같이 사용하기 위해
     zIndex: 1, // overlay 위에 배치
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    position: 'relative', // overlay와 같이 사용하기 위해
+    zIndex: 1, // overlay 위에 배치
   },
   episodeImage: {
     width: width * 0.15,
     height: width * 0.15,
+    resizeMode: 'contain',
+  },
+  expContainer: {
+    padding: 5,
+    paddingLeft: 10,
+    maxWidth: width * 0.73,
+  },
+  episodeTitle: {
+    color: 'black',
+    fontSize: 14,
+    fontWeight: '600',
+    marginBottom: 5,
+  },
+  episodeExp: {
+    color: 'black',
+    fontSize: 11,
     resizeMode: 'contain',
   },
   expContainer: {
