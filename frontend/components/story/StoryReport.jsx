@@ -1,7 +1,21 @@
-import React, {useEffect} from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  AppState,
+} from 'react-native';
 import axios from 'axios';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import Sound from 'react-native-sound';
+
+// 음악 파일의 경로를 지정합니다.
+// 'your-audio-file.mp3'를 실제 파일 이름으로 교체하세요.
+Sound.setCategory('Playback'); // iOS에서 백그라운드 음악을 재생하려면 필요
+
+let music = null;
 
 function StoryReport() {
   const navigation = useNavigation();
@@ -9,6 +23,11 @@ function StoryReport() {
 
   // route.params를 통해 OnStory에서 전달된 데이터 받기
   const {steps, distance, calories, averagePace, elapsedTime} = route.params;
+
+  // 앱 상태를 저장하는 상태 변수
+  const [appState, setAppState] = useState(AppState.currentState);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true); // 기본적으로 음악을 재생하도록 설정
 
   // 데이터 전송 함수
   const sendDataToBackend = async () => {
@@ -46,8 +65,60 @@ function StoryReport() {
   };
 
   useEffect(() => {
+    // 음악 파일 로드
+    music = new Sound('your-audio-file.mp3', Sound.MAIN_BUNDLE, error => {
+      if (error) {
+        console.log('Failed to load the sound', error);
+        return;
+      }
+      music.setCurrentTime(currentTime); // 이전 저장된 재생 시간 설정
+      if (isPlaying) {
+        music.play(success => {
+          if (!success) {
+            console.log('Playback failed due to audio decoding errors');
+          }
+        });
+      }
+    });
+
+    // 데이터 전송
     sendDataToBackend();
-  }, []);
+
+    // 앱 상태 변경 시 핸들러 등록
+    const handleAppStateChange = nextAppState => {
+      if (nextAppState === 'active') {
+        // 앱이 포그라운드로 돌아올 때 음악 재생
+        if (isPlaying) {
+          music.setCurrentTime(currentTime); // 저장된 시간으로 설정
+          music.play(success => {
+            if (!success) {
+              console.log('Playback failed due to audio decoding errors');
+            }
+          });
+        }
+      } else if (nextAppState === 'background') {
+        // 앱이 백그라운드로 갈 때 음악 일시정지
+        if (music) {
+          music.getCurrentTime(seconds => {
+            setCurrentTime(seconds); // 현재 재생 시간을 저장
+            music.pause();
+          });
+        }
+      }
+      setAppState(nextAppState);
+    };
+
+    AppState.addEventListener('change', handleAppStateChange);
+
+    // 클린업 함수
+    return () => {
+      AppState.removeEventListener('change', handleAppStateChange);
+      if (music) {
+        music.stop();
+        music.release();
+      }
+    };
+  }, [isPlaying]);
 
   const handlePress = () => {
     navigation.navigate('StoryRanking');

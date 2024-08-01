@@ -7,7 +7,6 @@ import {
 import Geolocation from 'react-native-geolocation-service';
 import Sound from 'react-native-sound';
 
-
 export const useDataTracking = () => {
   const [steps, setSteps] = useState(0);
   const [distance, setDistance] = useState(0);
@@ -32,10 +31,16 @@ export const useDataTracking = () => {
   let timerId = useRef(null);
 
   let sound = useRef(null); // 음악 플레이어 참조
+  const [currentSoundTime, setCurrentSoundTime] = useState(0); // 현재 재생 시간 상태 추가
 
   useEffect(() => {
     resetData();
     startMusic();
+    return () => {
+      if (sound.current) {
+        sound.current.release(); // 음악 플레이어 정리
+      }
+    };
   }, []);
 
   const resetData = () => {
@@ -149,7 +154,6 @@ export const useDataTracking = () => {
   };
 
   const startMusic = () => {
-    // 사운드 파일을 require로 가져오기
     const soundFile = require('../../sound/kimgu_introduce.mp3'); // 파일 경로를 지정
 
     sound.current = new Sound(soundFile, error => {
@@ -158,6 +162,7 @@ export const useDataTracking = () => {
         return;
       }
 
+      sound.current.setCurrentTime(currentSoundTime); // 저장된 현재 재생 시간 설정
       sound.current.play(success => {
         if (success) {
           console.log('Successfully finished playing');
@@ -190,7 +195,12 @@ export const useDataTracking = () => {
           if (geoSubscription.current !== null)
             Geolocation.clearWatch(geoSubscription.current);
           if (timerId.current) clearInterval(timerId.current);
-          if (sound.current) sound.current.release(); // 음악 플레이어 정리
+          if (sound.current) {
+            sound.current.getCurrentTime(seconds => {
+              setCurrentSoundTime(seconds); // 현재 재생 시간 저장
+              sound.current.release(); // 음악 플레이어 정리
+            });
+          }
         };
       } catch (error) {
         setError('Initialization error');
@@ -210,7 +220,12 @@ export const useDataTracking = () => {
       if (geoSubscription.current !== null)
         Geolocation.clearWatch(geoSubscription.current);
       if (timerId.current) clearInterval(timerId.current);
-      if (sound.current) sound.current.pause(); // 음악 일시 정지
+      if (sound.current) {
+        sound.current.getCurrentTime(seconds => {
+          setCurrentSoundTime(seconds); // 현재 재생 시간 저장
+          sound.current.pause(); // 음악 일시 정지
+        });
+      }
     }
     setIsPaused(prev => !prev);
   };
