@@ -234,11 +234,6 @@ const styles = StyleSheet.create({
     padding: 10,
     position: 'relative', // overlay와 같이 사용하기 위해
     zIndex: 1, // overlay 위에 배치
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-    position: 'relative', // overlay와 같이 사용하기 위해
-    zIndex: 1, // overlay 위에 배치
   },
   episodeImage: {
     width: width * 0.15,

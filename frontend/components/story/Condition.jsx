@@ -28,10 +28,6 @@ function Condition() {
     navigation.navigate('Situation'); // 'StoryHome' 페이지로 네비게이트
   };
 
-  const goBack = () => {
-    navigation.navigate('Situation'); // 'StoryHome' 페이지로 네비게이트
-  };
-
   return (
     <View style={styles.bigContainer}>
       <TouchableOpacity onPress={goBack} style={styles.goBack}>
