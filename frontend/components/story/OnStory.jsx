@@ -26,6 +26,7 @@ const OnStory = () => {
     loading,
     error,
     isPaused,
+    isMusicEnded,
     togglePause,
   } = useDataTracking();
 
@@ -35,21 +36,25 @@ const OnStory = () => {
   };
 
   useEffect(() => {
-    let timer;
     if (isMusicEnded) {
-      timer = setTimeout(() => {
-        navigation.navigate('StoryEnding', {
-          steps,
-          distance,
-          calories,
-          averagePace,
-          elapsedTime,
-        });
-      }, 1500); // 1.5초 대기
+      // 음악이 끝났을 때 스토리 종료 페이지로 이동
+      navigation.navigate('StoryEnding', {
+        steps,
+        distance,
+        calories,
+        averagePace,
+        elapsedTime,
+      });
     }
-
-    return () => clearTimeout(timer);
-  }, [isMusicEnded, navigation]);
+  }, [
+    isMusicEnded,
+    navigation,
+    steps,
+    distance,
+    calories,
+    averagePace,
+    elapsedTime,
+  ]);
 
   const formatPace = pace => {
     const minutes = Math.floor(pace);

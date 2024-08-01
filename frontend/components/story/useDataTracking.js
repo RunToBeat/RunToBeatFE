@@ -5,6 +5,7 @@ import {
   SensorTypes,
 } from 'react-native-sensors';
 import Geolocation from 'react-native-geolocation-service';
+import Sound from 'react-native-sound';
 
 export const useDataTracking = () => {
   const [steps, setSteps] = useState(0);
@@ -15,6 +16,7 @@ export const useDataTracking = () => {
   const [error, setError] = useState(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isMusicEnded, setIsMusicEnded] = useState(false); // 추가된 상태
 
   const previousMagnitude = useRef(0);
   const stepCount = useRef(0);
@@ -27,9 +29,11 @@ export const useDataTracking = () => {
   let accelSubscription = useRef(null);
   let geoSubscription = useRef(null);
   let timerId = useRef(null);
+  let sound = useRef(null); // 음악 플레이어 참조
 
   useEffect(() => {
     resetData();
+    startMusic();
   }, []);
 
   const resetData = () => {
@@ -39,6 +43,7 @@ export const useDataTracking = () => {
     setPace(0);
     setAveragePace(0);
     setElapsedTime(0);
+    setIsMusicEnded(false); // 음악 상태 초기화
     stepCount.current = 0;
     totalDistance.current = 0;
     totalTime.current = 0;
@@ -141,6 +146,27 @@ export const useDataTracking = () => {
     );
   };
 
+  const startMusic = () => {
+    // 사운드 파일을 require로 가져오기
+    const soundFile = require('../../sound/kimgu_introduce.mp3'); // 파일 경로를 지정
+
+    sound.current = new Sound(soundFile, error => {
+      if (error) {
+        console.log('Failed to load the sound', error);
+        return;
+      }
+
+      sound.current.play(success => {
+        if (success) {
+          console.log('Successfully finished playing');
+          setIsMusicEnded(true); // 음악 종료 시 상태 업데이트
+        } else {
+          console.log('Playback failed due to audio decoding errors');
+        }
+      });
+    });
+  };
+
   useEffect(() => {
     const initialize = async () => {
       try {
@@ -162,6 +188,7 @@ export const useDataTracking = () => {
           if (geoSubscription.current !== null)
             Geolocation.clearWatch(geoSubscription.current);
           if (timerId.current) clearInterval(timerId.current);
+          if (sound.current) sound.current.release(); // 음악 플레이어 정리
         };
       } catch (error) {
         setError('Initialization error');
@@ -175,11 +202,13 @@ export const useDataTracking = () => {
   const togglePause = () => {
     if (isPaused) {
       startTime.current = Date.now() - elapsedTime * 1000;
+      startMusic(); // 재개 시 음악도 다시 시작
     } else {
       if (accelSubscription.current) accelSubscription.current.unsubscribe();
       if (geoSubscription.current !== null)
         Geolocation.clearWatch(geoSubscription.current);
       if (timerId.current) clearInterval(timerId.current);
+      if (sound.current) sound.current.pause(); // 음악 일시 정지
     }
     setIsPaused(prev => !prev);
   };
@@ -193,6 +222,7 @@ export const useDataTracking = () => {
     elapsedTime,
     error,
     isPaused,
+    isMusicEnded, // 추가된 상태 반환
     togglePause,
   };
 };
