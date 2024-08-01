@@ -195,10 +195,8 @@ const styles = StyleSheet.create({
     width: width * 0.3,
     height: width * 0.5,
     marginRight: 7,
-    marginRight: 7,
     marginTop: 13,
     marginBottom: 20,
-    borderRadius: 3,
     borderRadius: 3,
   },
   listContent: {

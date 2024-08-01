@@ -145,21 +145,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
-    resizeMode: 'contain',
-    marginRight: '0.5%',
-  },
-  image1: {
-    width: width * 0.4, // 부모 요소의 너비에 맞추기
-    height: width * 0.45,
-    resizeMode: 'contain',
-    // aspectRatio: 1.4, // 비율을 1.4로 설정, 필요에 따라 조정
-    marginRight: '0.5%',
-  },
-
-  image2: {
-    width: width * 0.8,
-    height: width * 0.35,
-    resizeMode: 'contain',
+    resizeMode: 'contain', // 이미지 비율 유지
   },
 });
 

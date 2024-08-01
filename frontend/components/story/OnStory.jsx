@@ -1,11 +1,20 @@
-import React, {useEffect} from 'react';
-import {View, Text, StyleSheet, Button, ActivityIndicator} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  ActivityIndicator,
+  TouchableOpacity,
+  Modal,
+} from 'react-native';
 import {useDataTracking} from './useDataTracking';
 import {useNavigation} from '@react-navigation/native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const OnStory = () => {
   const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
 
   const {
     steps,
@@ -16,8 +25,9 @@ const OnStory = () => {
     elapsedTime,
     loading,
     error,
-    togglePause,
+    isPaused,
     isMusicEnded,
+    togglePause,
   } = useDataTracking();
 
   const closeModal = () => {
@@ -64,18 +74,63 @@ const OnStory = () => {
 
   return (
     <View style={styles.screen}>
-      <Text>OnStory 화면</Text>
-      <View style={styles.modalContent}>
-        <Text>걸음 수: {steps}</Text>
-        <Text>거리: {distance.toFixed(2)} km</Text>
-        <Text>칼로리: {calories.toFixed(2)}</Text>
-        <Text>Pace: {formatPace(pace)}</Text>
-        <Text>AvgPace: {formatPace(averagePace)}</Text>
-        <Text>
-          경과 시간: {Math.floor(elapsedTime / 60)}:
-          {String(elapsedTime % 60).padStart(2, '0')}
-        </Text>
-        <Button title="일시정지" onPress={togglePause} />
+      <View style={styles.content}>
+        <View style={styles.textBox}>
+          <Text style={styles.text}>{distance.toFixed(2)}</Text>
+          <Text style={styles.miniText}>km</Text>
+        </View>
+        <View style={styles.textBox}>
+          <Text style={styles.text}>
+            00:0{Math.floor(elapsedTime / 60)}:
+            {String(elapsedTime % 60).padStart(2, '0')}
+          </Text>
+          <Text style={styles.miniText}>시간</Text>
+        </View>
+        <View style={styles.textWrap}>
+          <View style={styles.textBox}>
+            <Text style={styles.text}>{formatPace(averagePace)}</Text>
+            <Text style={styles.miniText}>평균 페이스</Text>
+          </View>
+          <View style={styles.textBox}>
+            <Text style={styles.text}>{steps}</Text>
+            <Text style={styles.miniText}>걸음 수</Text>
+          </View>
+        </View>
+        <TouchableOpacity onPress={togglePause} style={styles.button}>
+          <FontAwesomeIcon
+            name={isPaused ? 'play' : 'pause'}
+            size={35}
+            color={'black'}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={styles.exit}>
+          <FontAwesomeIcon
+            name={'sign-out'}
+            size={35}
+            color={'white'}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={closeModal}>
+          <TouchableOpacity
+            style={styles.modalContainer}
+            activeOpacity={1}
+            onPressOut={() => setModalVisible(false)}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalText}>스토리를 나가시겠습니까?</Text>
+              <TouchableOpacity onPress={closeModal} style={styles.modalButton}>
+                <Text style={styles.modalButtonText}>종료하기</Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+        </Modal>
       </View>
     </View>
   );

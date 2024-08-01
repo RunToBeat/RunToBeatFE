@@ -16,6 +16,7 @@ export const useDataTracking = () => {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isMusicEnded, setIsMusicEnded] = useState(false); // 추가된 상태
+
   const previousMagnitude = useRef(0);
   const stepCount = useRef(0);
   const lastStepTime = useRef(Date.now());
