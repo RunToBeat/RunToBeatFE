@@ -153,6 +153,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     color: 'black',
     textAlign: 'center',
+    lineHeight: 50,
   },
   mapImage: {
     width: '100%',

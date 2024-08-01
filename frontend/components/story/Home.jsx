@@ -145,7 +145,10 @@ function Home() {
           <Text style={styles.topCategoriesText}>
             문명의 뿌리를 찾아서, 선사시대의 놀라운 이야기로 떠나보세요.
           </Text>
-          <View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.storyLists}>
             <TouchableOpacity onPress={() => handleStoryPress('storyImage3')}>
               <Image
                 style={styles.image}
@@ -170,7 +173,7 @@ function Home() {
                 source={require('../../image/storyImage7.png')}
               />
             </TouchableOpacity>
-          </View>
+          </ScrollView>
         </>
       )}
     </ScrollView>
@@ -214,10 +217,10 @@ const styles = StyleSheet.create({
   },
   storyLists: {alignItems: 'center'},
   topCategoriesText: {
-    fontSize: 20,
+    fontSize: 21,
     color: 'black',
     fontWeight: 'bold',
-    marginRight: 80,
+    marginRight: 73,
   },
 });
 

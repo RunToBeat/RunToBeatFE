@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     fontWeight: 'bold',
     textAlign: 'center',
+    lineHeight: 50,
   },
 });
 

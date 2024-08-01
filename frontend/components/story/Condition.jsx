@@ -89,24 +89,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    alignItems: 'center',
     padding: 20,
-    paddingBottom: 57,
-  },
-  textContainer: {
-    alignItems: 'flex-start',
-    marginBottom: 45,
-    // backgroundColor: 'red',
-  },
-  textBig: {
-    color: 'black',
-    fontSize: 26,
-    fontWeight: '700',
-    marginBottom: 7,
-  },
-  textSmall: {
-    color: 'black',
-    fontSize: 13,
-    fontWeight: '300',
   },
   textContainer: {
     alignItems: 'flex-start',
@@ -133,6 +117,7 @@ const styles = StyleSheet.create({
   situation: {
     width: '48%', // 각 이미지의 너비 (전체의 절반 - 간격을 위한 여유)
     aspectRatio: 1, // 정사각형 비율 유지
+    marginBottom: 8, // 아래쪽 간격
     marginBottom: 8, // 아래쪽 간격
     marginRight: '2%', // 항목 간의 가로 간격
   },

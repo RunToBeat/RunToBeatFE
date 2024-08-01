@@ -163,6 +163,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     // aspectRatio: 1.4, // 비율을 1.4로 설정, 필요에 따라 조정
   },
+
   image2: {
     width: width * 0.8,
     height: width * 0.35,
