@@ -80,6 +80,11 @@ function Condition() {
 }
 
 const styles = StyleSheet.create({
+  bigContainer: {
+    flex: 1,
+    paddingHorizontal: '7%',
+    backgroundColor: 'white',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

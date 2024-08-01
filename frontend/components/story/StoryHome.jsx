@@ -38,6 +38,58 @@ function StoryHome() {
   const goBack = () => {
     navigation.navigate('Home'); // 'Home' 페이지로 네비게이트
   };
+  const episodes = [
+    {
+      id: 1,
+      title: '1화. K에게 가다',
+      description:
+        '나라의 미래가 달려있는 중요한 문서를 K라는 사람에게 전달해달라는 부탁을 받았다. 그런데 K가 누구지?',
+      image: require('../../image/episode1.png'),
+      mainImage: require('../../image/BigEpisode1.png'), // 에피소드 별 mainImage 추가
+      showOverlay: false,
+    },
+    {
+      id: 2,
+      title: '2화. 상해에서',
+      description:
+        '1919년 4월 11일 상해에서 대한민국 임시정부 수립되고 이승만 초대 대통령 취임했습니다.',
+      image: require('../../image/episode2.png'),
+      mainImage: require('../../image/episode2.png'), // 에피소드 별 mainImage 추가
+      showOverlay: false,
+    },
+    {
+      id: 3,
+      title: '3화. 임시정부의 활동',
+      description:
+        '독립운동 지도와 외교 활동을 전개하며 국내외에서 독립운동 지원 및 연대 활동합니다.',
+      image: require('../../image/episode3.png'),
+      mainImage: require('../../image/episode2.png'), // 에피소드 별 mainImage 추가
+      showOverlay: true,
+    },
+    {
+      id: 4,
+      title: '4화. 중국으로',
+      description:
+        '대한민국의 독립운동가이자 언론인으로, 3.1 운동 당시 독립 선언문을 작성하고 선포한 인물로 잘 알려져 있습니다.',
+      image: require('../../image/episode4.png'),
+      mainImage: require('../../image/episode2.png'), // 에피소드 별 mainImage 추가
+      showOverlay: true,
+    },
+    {
+      id: 5,
+      title: '5화. 광복',
+      description:
+        "'지금 나에겐 만세운동을 지도하는 것보다는 어서 망명해 독립운동을 계획하는 것이 더 중요하다.'",
+      image: require('../../image/episode5.png'),
+      mainImage: require('../../image/episode2.png'), // 에피소드 별 mainImage 추가
+      showOverlay: true,
+    },
+  ];
+
+  // 현재 에피소드에 해당하는 이미지 가져오기
+  const currentEpisode = episodes.find(
+    episode => episode.id === currentEpisodeId,
+  );
 
   // Array of episodes with overlays and mainImage
   const episodes = [
